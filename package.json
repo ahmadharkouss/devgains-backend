@@ -1,0 +1,19 @@
+{
+  "name": "devgains-backend",
+  "version": "1.0.0",
+  "description": "v1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahmadharkouss/devgains-backend.git"
+  },
+  "author": "ahmad.harkous",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahmadharkouss/devgains-backend/issues"
+  },
+  "homepage": "https://github.com/ahmadharkouss/devgains-backend#readme"
+}
