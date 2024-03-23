@@ -33,4 +33,4 @@ jobs:
             git pull
             npm install
             npm run build
-            exit
+            echo "::error ::Workflow terminated after npm run build"
