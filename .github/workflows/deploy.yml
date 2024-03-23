@@ -22,6 +22,8 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
             source ~/.bashrc
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
             cd /home/ahmad/devgains-backend
             git pull
             npm install
