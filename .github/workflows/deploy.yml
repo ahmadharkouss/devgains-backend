@@ -30,11 +30,11 @@ jobs:
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
             # Kill the process using port 3000 if it exists
-            pid=$(lsof -t -i:3000)
-            if [ -n "$pid" ]; then
-              echo "Killing process $pid using port 3000..."
-              kill $pid
-            fi
+            # pid=$(lsof -t -i:3000)
+            # if [ -n "$pid" ]; then
+              # echo "Killing process $pid using port 3000..."
+              # kill $pid
+            # fi
             cd /home/ahmad/devgains-backend
             git pull
             npm install

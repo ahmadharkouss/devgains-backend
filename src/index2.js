@@ -6,7 +6,7 @@ const port = 3000;
 
 // Define a sample API endpoint
 app.get('/api/sample', (req, res) => {
-    res.json({ message: 'This is a sample API endpoint test test2' });
+    res.json({ message: 'This is a sample API endpoint test test8' });
 });
 
 // Start the server
