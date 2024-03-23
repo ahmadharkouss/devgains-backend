@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node src/index2.js"
+    "build": "pm2 start src/index2.js"
   },
   "repository": {
     "type": "git",

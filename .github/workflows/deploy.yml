@@ -39,5 +39,4 @@ jobs:
             git pull
             npm install
             npm run build
-            exit 0 
 
