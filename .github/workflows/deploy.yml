@@ -23,5 +23,5 @@ jobs:
           script: |
             cd /home/ahmad/devgains-backend
             git pull
-            npm install
-            npm run build
+            /home/ahmad/.nvm/versions/node/v20.11.1/bin/npm install
+            /home/ahmad/.nvm/versions/node/v20.11.1/bin/npm run build
