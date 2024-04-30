@@ -1,3 +1,5 @@
+
+//api url https://3cml39nmjxzysqjovm9gaqewng60ewbkj0677s8jovm.devgains.com/api/
 const express = require('express');
 const {connectDB} = require('./connect-db');
 
@@ -10,7 +12,7 @@ app.get('/api/sample', (req, res) => {
     res.json({ message: 'This is a sample API endpoint test test8' });
 });
 //Api to test connection to database
-app.get('/api/connect-db', async (req, res) => {
+app.get('/api/connectDb', async (req, res) => {
     const connection = await connectDB();
     res.json({ message: connection });
 });
