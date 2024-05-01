@@ -1,6 +1,7 @@
-//api url https://3cml39nmjxzysqjovm9gaqewng60ewbkj0677s8jovm.devgains.com/api/
+//api url https://api.devgains.com
 const express = require('express');
 const {connectDB} = require('./connect-db');
+
 
 // Create Express app
 const app = express();
