@@ -6,12 +6,34 @@ on:
       - main  # Adjust if your main branch is named differently
 
 jobs:
-  deploy:
+
+  build:
+        runs-on: ubuntu-latest
+    
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v4
+
+          - name: Build Docker image
+            run: |
+              docker build -t registry.devgains.com/devgains-backend:${{ github.sha }} \
+                           --build-arg DB_NAME=${{ secrets.DB_NAME }} \
+                           --build-arg DB_USER=${{ secrets.DB_USER }} \
+                           --build-arg DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+                           --build-arg DB_HOST=${{ secrets.DB_HOST }} \
+                           --build-arg DB_PORT=${{ secrets.DB_PORT }} \
+                           . 
+
+  push-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+
+      - name: Login to Docker registry
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin registry.devgains.com
+
+      - name: Push Docker image to registry
+        run: docker push registry.devgains.com/devgains-backend:${{ github.sha }}
 
       - name: SSH into web server and execute commands
         uses: appleboy/ssh-action@master
@@ -21,22 +43,8 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
-            export DB_NAME=${{ secrets.DB_NAME }}
-            export DB_USER=${{ secrets.DB_USER }}
-            export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-            export DB_HOST=${{ secrets.DB_HOST }}
-            export DB_PORT=${{ secrets.DB_PORT }}
-            source ~/.bashrc
-            export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh
-            # Kill the process using port 3000 if itexists
-            pid=$(lsof -t -i:3000)
-            if [ -n "$pid" ]; then
-              echo "Killing process $pid using port 3000..."
-              kill $pid
-            fi
-            cd /home/ahmad/devgains-backend
-            git pull
-            npm install
-            npm run build
-
+           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin registry.devgains.com
+           docker pull registry.devgains.com/devgains-backend:${{ github.sha }}
+           docker stop devgains-backend || true
+           docker rm devgains-backend || true
+           docker run -d --name devgains-backend -p 3000:3000 registry.devgains.com/devgains-backend:${{ github.sha }}

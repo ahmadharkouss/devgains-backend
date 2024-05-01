@@ -1,0 +1,42 @@
+name: Deploy to Web Server
+
+on:
+  push:
+    branches:
+      - main  # Adjust if your main branch is named differently
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: SSH into web server and execute commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          port: ${{ secrets.SERVER_PORT }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: |
+            export DB_NAME=${{ secrets.DB_NAME }}
+            export DB_USER=${{ secrets.DB_USER }}
+            export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            export DB_HOST=${{ secrets.DB_HOST }}
+            export DB_PORT=${{ secrets.DB_PORT }}
+            source ~/.bashrc
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            # Kill the process using port 3000 if itexists
+            pid=$(lsof -t -i:3000)
+            if [ -n "$pid" ]; then
+              echo "Killing process $pid using port 3000..."
+              kill $pid
+            fi
+            cd /home/ahmad/devgains-backend
+            git pull
+            npm install
+            npm run build
+
