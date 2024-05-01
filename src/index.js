@@ -1,4 +1,4 @@
-//api url https://api.devgains.com
+//api url https://api.devgains.com/api
 const express = require('express');
 const {connectDB} = require('./connect-db');
 
